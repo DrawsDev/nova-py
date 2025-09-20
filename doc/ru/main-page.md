@@ -4,6 +4,6 @@
 
 ## Разделы
 
-- [Инициализация приложения](beginning.md)
+- [Начало](beginning.md)
 - [Application](application.md)
 - [Scene](scene.md)
