@@ -1,6 +1,7 @@
 # Application
-SCREEN_SIZE = (1280, 720)
-FPS = 60
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+FRAMERATE = 60
 TITLE = "Application"
 ICON_PATH = "src/core/icon.png"
 

@@ -2,42 +2,35 @@ import sys
 import pygame
 from typing import Optional
 from scenes import Scene
+from .input import Input
+from .window import Window
 from constants import *
 
 class Application:
     def __init__(self):
         pygame.init()
-        pygame.display.set_caption(TITLE)
-        pygame.display.set_icon(pygame.image.load(ICON_PATH))
-        self.screen: pygame.Surface = pygame.display.set_mode(SCREEN_SIZE)
-        self.clock: pygame.Clock = pygame.Clock()
+        self.window: Window = Window(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.input: Input = Input()
         self.scene: Optional[Scene] = None
+        self.window.set_icon(pygame.image.load(ICON_PATH))
+        self.window.set_framerate(FRAMERATE)
 
     def run(self):
-        while True:
+        while not self.window.should_close():
             self.process()
+        self.quit()
 
     def quit(self):
         pygame.quit()
         sys.exit(0)
 
     def process(self):
-        delta = self.clock.tick(FPS)
-        self.process_events()
-
+        self.window.process()
         if self.scene:
-            self.scene.process(delta)
-
-        pygame.display.update()
-
-    def process_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.quit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_F11:
-                    pygame.display.toggle_fullscreen()
-
+            self.scene.process(self.window.get_delta())
+        if self.input.just_pressed(pygame.K_F11):
+            self.window.toggle_fullscreen()
+    
     def set_scene(self, scene: "Scene"):
         self.unload_scene()
         self.scene = scene(self)
