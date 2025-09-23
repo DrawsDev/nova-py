@@ -31,7 +31,7 @@ class Window:
         pygame.display.toggle_fullscreen()
 
     def is_fullscreen(self) -> bool:
-        return self.screen.get_flags() & pygame.FULLSCREEN == pygame.FULLSCREEN
+        return pygame.display.is_fullscreen()
 
     def should_close(self) -> bool:
         return self._should_close
